@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import React from "react";
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -31,6 +32,10 @@ export default function TelaListagem() {
           </View>
         )}
       />
+
+      <TouchableOpacity style={styles.botao} onPress={() => router.back()}>
+          <Text style={styles.textoBotao}>Voltar</Text>
+      </TouchableOpacity>
 
       <TouchableOpacity style={styles.addButton}>
         <Text style={styles.addText}>+</Text>
@@ -68,4 +73,16 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   addText: { fontSize: 30, color: "#fff" },
+    botao: {
+  backgroundColor: "#007AFF",
+  padding: 15,
+  borderRadius: 8,
+  alignItems: "center",
+  marginTop: 20,
+  },
+  textoBotao: {
+  color: "#fff",
+  fontWeight: "bold",
+  fontSize: 16,
+  },
 });

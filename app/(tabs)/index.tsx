@@ -1,4 +1,4 @@
-import TelaListagem from "@/src/screens/TelaListagem";
+import TelaDashboard from "@/app/(tabs)/telaDashboard";
 export default function Index() {
-  return <TelaListagem />;
+  return <TelaDashboard />;
 }

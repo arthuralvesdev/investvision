@@ -1,5 +1,6 @@
+import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function TelaDashboard() {
   const [dados, setDados] = useState<
@@ -20,6 +21,7 @@ export default function TelaDashboard() {
   const valorizacao = 150;
 
   return (
+    
     <ScrollView style={styles.container}>
       <Text style={styles.header}>InvestVision</Text>
 
@@ -43,7 +45,14 @@ export default function TelaDashboard() {
           </Text>
         </View>
       </View>
+      <TouchableOpacity style={styles.botao} onPress={() => router.push("/TelaListagem")}>
+        <Text style={styles.textoBotao}>Ver meus investimentos</Text>
+      </TouchableOpacity>
+
+
     </ScrollView>
+    
+    
   );
 }
 
@@ -82,5 +91,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#333",
     marginTop: 4,
+  },
+  botao: {
+  backgroundColor: "#007AFF",
+  padding: 15,
+  borderRadius: 8,
+  alignItems: "center",
+  marginTop: 20,
+  },
+  textoBotao: {
+  color: "#fff",
+  fontWeight: "bold",
+  fontSize: 16,
   },
 });
