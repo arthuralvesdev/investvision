@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function InvestmentsListScreen() {
   // Dados fictícios (depois trocaremos por dados salvos)
