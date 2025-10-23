@@ -1,4 +1,4 @@
-import InvestmentsListScreen from "../../src/screens/telaListagem";
+import TelaListagem from "@/src/screens/TelaListagem";
 export default function Index() {
-  return <InvestmentsListScreen />;
+  return <TelaListagem />;
 }

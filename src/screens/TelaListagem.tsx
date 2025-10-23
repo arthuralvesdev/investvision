@@ -1,7 +1,7 @@
 import React from "react";
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function InvestmentsListScreen() {
+export default function TelaListagem() {
   // Dados fictícios (depois trocaremos por dados salvos)
   const data = [
     { id: "1", nome: "Tesouro Selic 2029", valor: 5000 },
@@ -13,7 +13,7 @@ export default function InvestmentsListScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>InvestVision 💰</Text>
+      <Text style={styles.header}>InvestVision</Text>
 
       <Text style={styles.total}>
         Total investido: R$ {total.toLocaleString("pt-BR")}
@@ -41,7 +41,7 @@ export default function InvestmentsListScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#f4f4f4", padding: 16 },
-  header: { fontSize: 22, fontWeight: "bold", marginBottom: 10 },
+  header: { fontSize: 22, fontWeight: "bold", marginBottom: 20, marginTop: 35 },
   total: { fontSize: 18, marginBottom: 20, color: "#2e7d32" },
   card: {
     backgroundColor: "#fff",
