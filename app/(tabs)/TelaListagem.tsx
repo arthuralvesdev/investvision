@@ -1,46 +1,52 @@
-import { router } from "expo-router";
-import React from "react";
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { getInvestimentos } from "../../src/services/investimentosService";
 
 export default function TelaListagem() {
-  // Dados fictícios (depois trocaremos por dados salvos)
-  const data = [
-    { id: "1", nome: "Tesouro Selic 2029", valor: 5000 },
-    { id: "2", nome: "CDB Banco XP", valor: 2000 },
-    { id: "3", nome: "Ações PETR4", valor: 3500 },
-  ];
+  useEffect(() => {
+    async function carregar() {
+      const lista = await getInvestimentos();
+      console.log("📊 Dados vindos do Firestore:", lista);
+    }
 
-  const total = data.reduce((acc, item) => acc + item.valor, 0);
+    carregar();
+  }, []);
+
+  // const total = data.reduce((acc, item) => acc + item.valor, 0);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>InvestVision</Text>
 
-      <Text style={styles.total}>
-        Total investido: R$ {total.toLocaleString("pt-BR")}
-      </Text>
-
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.card}>
-            <Text style={styles.name}>{item.nome}</Text>
-            <Text style={styles.value}>
-              R$ {item.valor.toLocaleString("pt-BR")}
-            </Text>
-          </View>
-        )}
-      />
-
-      <TouchableOpacity style={styles.botao} onPress={() => router.back()}>
-          <Text style={styles.textoBotao}>Voltar</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.addButton}>
-        <Text style={styles.addText}>+</Text>
-      </TouchableOpacity>
+    <View>
+      <Text>Testando Firestore...</Text>
     </View>
+  //   <View style={styles.container}>
+  //     <Text style={styles.header}>InvestVision</Text>
+
+  //     <Text style={styles.total}>
+  //       Total investido: R$ {total.toLocaleString("pt-BR")}
+  //     </Text>
+
+  //     <FlatList
+  //       data={data}
+  //       keyExtractor={(item) => item.id}
+  //       renderItem={({ item }) => (
+  //         <View style={styles.card}>
+  //           <Text style={styles.name}>{item.nome}</Text>
+  //           <Text style={styles.value}>
+  //             R$ {item.valor.toLocaleString("pt-BR")}
+  //           </Text>
+  //         </View>
+  //       )}
+  //     />
+
+  //     <TouchableOpacity style={styles.botao} onPress={() => router.back()}>
+  //         <Text style={styles.textoBotao}>Voltar</Text>
+  //     </TouchableOpacity>
+
+  //     <TouchableOpacity style={styles.addButton}>
+  //       <Text style={styles.addText}>+</Text>
+  //     </TouchableOpacity>
+  //   </View>
   );
 }
 
