@@ -1,94 +1,107 @@
-import React, { useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { getInvestimentos } from "../../src/services/investimentosService";
+import { router } from "expo-router";
+import React, { useCallback, useEffect, useState } from "react";
+import { ActivityIndicator, Alert, FlatList, RefreshControl, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { deleteInvestimento, getInvestimentos } from "../../src/services/investimentosService";
+import { Investimento } from "../../src/types/Investimento";
 
 export default function TelaListagem() {
-  useEffect(() => {
-    async function carregar() {
-      const lista = await getInvestimentos();
-      console.log("📊 Dados vindos do Firestore:", lista);
-    }
+  const [carregando, setCarregando] = useState(true);
+  const [lista, setLista] = useState<Investimento[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
 
-    carregar();
+  const carregar = async () => {
+    setCarregando(true);
+    const dados = await getInvestimentos();
+    setLista(dados);
+    setCarregando(false);
+  };
+
+  useEffect(() => { carregar(); }, []);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await carregar();
+    setRefreshing(false);
   }, []);
 
-  // const total = data.reduce((acc, item) => acc + item.valor, 0);
+  const total = lista.reduce((acc, it) => acc + (it.valorAtual ?? 0), 0);
+
+  const confirmarExcluir = (id?: string) => {
+    if (!id) return;
+    Alert.alert("Excluir", "Deseja excluir este investimento?", [
+      { text: "Cancelar", style: "cancel" },
+      {
+        text: "Excluir",
+        style: "destructive",
+        onPress: async () => {
+          await deleteInvestimento(id);
+          await carregar();
+        }
+      }
+    ]);
+  };
+
+  if (carregando) {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator />
+        <Text>Carregando investimentos...</Text>
+      </View>
+    );
+  }
 
   return (
+    <View style={styles.container}>
+      <Text style={styles.header}>InvestVision</Text>
+      <Text style={styles.total}>Total investido: R$ {total.toLocaleString("pt-BR")}</Text>
 
-    <View>
-      <Text>Testando Firestore...</Text>
+      <FlatList
+        data={lista}
+        keyExtractor={(item) => item.id!}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.name}>{item.nome}</Text>
+              <Text style={styles.meta}>{item.tipo} • {item.dataAplicacao}</Text>
+              <Text style={styles.value}>R$ {item.valorAtual.toLocaleString("pt-BR")}</Text>
+            </View>
+
+            <View style={styles.actions}>
+              <TouchableOpacity style={styles.btnOutline} onPress={() => router.push({ pathname: "/TelaCadastro", params: { id: item.id } })}>
+                <Text style={styles.btnOutlineText}>Editar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.btnDanger} onPress={() => confirmarExcluir(item.id)}>
+                <Text style={styles.btnDangerText}>Excluir</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+      />
+
+      <TouchableOpacity style={styles.addButton} onPress={() => router.push("/(tabs)/TelaCadastro")}>
+        <Text style={styles.addText}>+</Text>
+      </TouchableOpacity>
     </View>
-  //   <View style={styles.container}>
-  //     <Text style={styles.header}>InvestVision</Text>
-
-  //     <Text style={styles.total}>
-  //       Total investido: R$ {total.toLocaleString("pt-BR")}
-  //     </Text>
-
-  //     <FlatList
-  //       data={data}
-  //       keyExtractor={(item) => item.id}
-  //       renderItem={({ item }) => (
-  //         <View style={styles.card}>
-  //           <Text style={styles.name}>{item.nome}</Text>
-  //           <Text style={styles.value}>
-  //             R$ {item.valor.toLocaleString("pt-BR")}
-  //           </Text>
-  //         </View>
-  //       )}
-  //     />
-
-  //     <TouchableOpacity style={styles.botao} onPress={() => router.back()}>
-  //         <Text style={styles.textoBotao}>Voltar</Text>
-  //     </TouchableOpacity>
-
-  //     <TouchableOpacity style={styles.addButton}>
-  //       <Text style={styles.addText}>+</Text>
-  //     </TouchableOpacity>
-  //   </View>
   );
 }
 
 const styles = StyleSheet.create({
+  center: { flex: 1, alignItems: "center", justifyContent: "center", gap: 8 },
   container: { flex: 1, backgroundColor: "#f4f4f4", padding: 16 },
   header: { fontSize: 22, fontWeight: "bold", marginBottom: 20, marginTop: 35 },
-  total: { fontSize: 18, marginBottom: 20, color: "#2e7d32" },
-  card: {
-    backgroundColor: "#fff",
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 10,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 2,
-  },
+  total: { fontSize: 18, marginBottom: 12, color: "#2e7d32" },
+  card: { backgroundColor: "#fff", padding: 16, borderRadius: 8, marginBottom: 10, elevation: 2, flexDirection: "row", gap: 12 },
   name: { fontSize: 16, fontWeight: "bold" },
-  value: { fontSize: 16, color: "#007AFF" },
-  addButton: {
-    position: "absolute",
-    bottom: 30,
-    right: 30,
-    backgroundColor: "#007AFF",
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: 5,
-  },
+  meta: { fontSize: 12, color: "#666", marginTop: 2 },
+  value: { fontSize: 16, color: "#007AFF", marginTop: 6 },
+
+  actions: { justifyContent: "center", gap: 8 },
+  btnOutline: { borderWidth: 1, borderColor: "#007AFF", paddingHorizontal: 10, paddingVertical: 6, borderRadius: 6 },
+  btnOutlineText: { color: "#007AFF", fontWeight: "600" },
+  btnDanger: { backgroundColor: "#E53935", paddingHorizontal: 10, paddingVertical: 6, borderRadius: 6 },
+  btnDangerText: { color: "#fff", fontWeight: "600" },
+
+  addButton: { position: "absolute", bottom: 30, right: 30, backgroundColor: "#007AFF", width: 60, height: 60, borderRadius: 30, alignItems: "center", justifyContent: "center", elevation: 5 },
   addText: { fontSize: 30, color: "#fff" },
-    botao: {
-  backgroundColor: "#007AFF",
-  padding: 15,
-  borderRadius: 8,
-  alignItems: "center",
-  marginTop: 20,
-  },
-  textoBotao: {
-  color: "#fff",
-  fontWeight: "bold",
-  fontSize: 16,
-  },
 });

@@ -1,27 +1,26 @@
 import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
+import { Investimento } from "../types/Investimento"; // 👈
 import { db } from "./firebaseConfig";
 
-// Nome da coleção no Firestore
 const COLLECTION_NAME = "investimentos";
 
-// 🔹 Criar um novo investimento
-export async function addInvestimento(investimento: any) {
+export async function addInvestimento(investimento: Omit<Investimento, "id">) {
   await addDoc(collection(db, COLLECTION_NAME), investimento);
 }
 
-// 🔹 Listar todos os investimentos
-export async function getInvestimentos() {
+export async function getInvestimentos(): Promise<Investimento[]> {
   const snapshot = await getDocs(collection(db, COLLECTION_NAME));
-  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  return snapshot.docs.map(doc => ({
+    id: doc.id,
+    ...(doc.data() as Omit<Investimento, "id">),
+  }));
 }
 
-// 🔹 Atualizar um investimento
-export async function updateInvestimento(id: string, novosDados: any) {
+export async function updateInvestimento(id: string, novosDados: Partial<Investimento>) {
   const ref = doc(db, COLLECTION_NAME, id);
   await updateDoc(ref, novosDados);
 }
 
-// 🔹 Excluir um investimento
 export async function deleteInvestimento(id: string) {
   const ref = doc(db, COLLECTION_NAME, id);
   await deleteDoc(ref);
