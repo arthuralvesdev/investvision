@@ -79,7 +79,7 @@ export default function TelaListagem() {
         )}
       />
 
-      <TouchableOpacity style={styles.addButton} onPress={() => router.push("/(tabs)/TelaCadastro")}>
+      <TouchableOpacity style={styles.addButton} onPress={() => router.push("/TelaCadastro")}>
         <Text style={styles.addText}>+</Text>
       </TouchableOpacity>
     </View>
