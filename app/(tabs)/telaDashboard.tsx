@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { getInvestimentos } from "@/src/services/investimentosService";
 
 export default function TelaDashboard() {
   const [dados, setDados] = useState<
@@ -8,12 +9,12 @@ export default function TelaDashboard() {
   >([]);
 
   useEffect(() => {
-    const investimentos = [
-      { tipo: "Renda Fixa", valorAtual: 6000 },
-      { tipo: "Ações", valorAtual: 4000 },
-      { tipo: "Criptos", valorAtual: 2000 },
-    ];
-    setDados(investimentos);
+    const carregarDados = async () => {
+      const lista = await getInvestimentos();
+      setDados(lista)
+    };
+      
+    carregarDados();
   }, []);
 
   const total = dados.reduce((acc, item) => acc + item.valorAtual, 0);
