@@ -6,7 +6,6 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
   useWindowDimensions,
 } from "react-native";
@@ -39,7 +38,7 @@ export default function TelaDashboard() {
         : index === 1
         ? "#4CAF50"
         : "#FFC107",
-    legendFontColor: "#FFF",
+    legendFontColor: "#6E6E73",
     legendFontSize: 13,
   }));
 
@@ -110,8 +109,8 @@ export default function TelaDashboard() {
             width={width - 40}
             height={220}
             chartConfig={{
-              backgroundGradientFrom: "#000",
-              backgroundGradientTo: "#000",
+              backgroundGradientFrom: "#999",
+              backgroundGradientTo: "#999",
               color: (opacity = 1) => `rgba(255,255,255,${opacity})`,
               strokeWidth: 2,
             }}
@@ -146,14 +145,6 @@ export default function TelaDashboard() {
           </View>
         ))}
       </View>
-
-      {/* Botão */}
-      <TouchableOpacity
-        style={styles.botao}
-        onPress={() => router.push("/TelaListagem")}
-      >
-        <Text style={styles.textoBotao}>Ver detalhes completos</Text>
-      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -161,7 +152,7 @@ export default function TelaDashboard() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000", // 🔹 Fundo escuro
+    backgroundColor: "#FFFFFF", // 🔹 Fundo escuro
     paddingHorizontal: 20,
     paddingTop: 50,
   },
@@ -174,7 +165,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 26,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#000",
     marginLeft: 8,
   },
   cardsContainer: {
@@ -183,7 +174,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   card: {
-    backgroundColor: "#111",
+    backgroundColor: "#F8F9FA",
     borderRadius: 14,
     padding: 16,
     marginBottom: 14,
@@ -192,17 +183,17 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: 16,
-    color: "#aaa",
+    fontWeight: "bold",
+    color: "#000",
     marginTop: 8,
   },
   cardValue: {
     fontSize: 30,
-    fontWeight: "bold",
-    color: "#fff",
+    color: "#000",
     marginTop: 4,
   },
   chartContainer: {
-    backgroundColor: "#111",
+    backgroundColor: "#F8F9FA",
     borderRadius: 14,
     padding: 16,
     marginTop: 20,
@@ -211,11 +202,11 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#6E6E73",
     marginBottom: 10,
   },
   investimentosContainer: {
-    backgroundColor: "#111",
+    backgroundColor: "#F8F9FA",
     borderRadius: 14,
     padding: 16,
     marginTop: 20,
@@ -227,28 +218,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderColor: "#222",
+    borderColor: "#6E6E73",
   },
   itemTipo: {
     flex: 1,
     marginLeft: 10,
     fontSize: 15,
-    color: "#ccc",
+    color: "#6E6E73",
   },
   itemValor: {
     fontWeight: "bold",
-    color: "#fff",
-  },
-  botao: {
-    backgroundColor: "#00BFFF",
-    padding: 15,
-    borderRadius: 10,
-    alignItems: "center",
-    marginVertical: 30,
-  },
-  textoBotao: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 16,
+    color: "#6E6E73",
   },
 });
