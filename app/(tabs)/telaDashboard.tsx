@@ -27,8 +27,7 @@ export default function TelaDashboard() {
   }, []);
 
   const total = dados.reduce((acc, item) => acc + item.valorAtual, 0);
-  const rentabilidadeMedia = 1.25;
-  const valorizacao = 150;
+  const rentabilidade = 2048
 
   // 🔹 Dados do gráfico de pizza
   const chartData = dados.map((item, index) => ({
@@ -63,32 +62,21 @@ export default function TelaDashboard() {
     <ScrollView style={styles.container}>
       {/* Header */}
       <View style={styles.headerContainer}>
-        <Ionicons name="bar-chart-outline" size={28} color="#00BFFF" />
-        <Text style={styles.headerTitle}>InvestVision</Text>
+        <Text style={styles.headerTitle}>Olá, Arthur!</Text>
       </View>
 
       {/* Cards */}
       <View style={styles.cardsContainer}>
         <View style={styles.card}>
-          <Ionicons name="wallet-outline" size={24} color="#00BFFF" />
           <Text style={styles.cardTitle}>Total Investido</Text>
           <Text style={styles.cardValue}>R$ {total.toLocaleString("pt-BR")}</Text>
+          <Text style={{ color: 'green', fontWeight: 'bold' }}>+20,55%</Text>
         </View>
 
         <View style={styles.card}>
-          <Ionicons name="trending-up-outline" size={24} color="#4CAF50" />
-          <Text style={styles.cardTitle}>Rentabilidade Média</Text>
-          <Text style={[styles.cardValue, { color: "#4CAF50" }]}>
-            {rentabilidadeMedia}%
-          </Text>
-        </View>
-
-        <View style={styles.card}>
-          <Ionicons name="cash-outline" size={24} color="#FFC107" />
-          <Text style={styles.cardTitle}>Valorização</Text>
-          <Text style={[styles.cardValue, { color: "#FFC107" }]}>
-            R$ {valorizacao}
-          </Text>
+          <Text style={styles.cardTitle}>Rentabilidade</Text>
+          <Text style={styles.cardValue}>R$ {rentabilidade.toLocaleString("pt-BR")}</Text>
+          <Text style={{ color: 'green', fontWeight: 'bold' }}>+9,58%</Text>
         </View>
       </View>
 
@@ -199,16 +187,16 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     padding: 16,
     marginBottom: 14,
-    width: "48%",
+    width: "100%",
     elevation: 3,
   },
   cardTitle: {
-    fontSize: 14,
+    fontSize: 16,
     color: "#aaa",
     marginTop: 8,
   },
   cardValue: {
-    fontSize: 18,
+    fontSize: 30,
     fontWeight: "bold",
     color: "#fff",
     marginTop: 4,
