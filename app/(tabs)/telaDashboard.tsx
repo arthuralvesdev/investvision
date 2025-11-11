@@ -58,7 +58,7 @@ export default function TelaDashboard() {
     .curve(d3.curveNatural)(data);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container}contentContainerStyle={{ paddingBottom: 100 }}>
       {/* Header */}
       <View style={styles.headerContainer}>
         <Text style={styles.headerTitle}>Olá, Arthur!</Text>
