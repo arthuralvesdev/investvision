@@ -37,7 +37,11 @@ export default function TelaListagem() {
           <Text style={styles.textoBotao}>Voltar</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.addButton}>
+       {/* BOTÃO ATUALIZADO: Adicionado onPress para navegar */}
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => router.push("/TelaCadastroInvestimento")} // Navega para a tela de cadastro
+      >
         <Text style={styles.addText}>+</Text>
       </TouchableOpacity>
     </View>
