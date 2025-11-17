@@ -139,7 +139,7 @@ export default function TelaCadastroInvestimento() {
       // Salvar no AsyncStorage
       await salvarInvestimento(investimento);
 
-      console.log("✅ Investimento Salvo:", investimento);
+      console.log("Investimento Salvo:", investimento);
 
       // Limpar campos
       setNome("");
@@ -199,7 +199,7 @@ export default function TelaCadastroInvestimento() {
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Nome do Investimento</Text>
             <TextInput
-              placeholder="Ex: Ações da Apple"
+              placeholder="Ex: BBAS3"
               placeholderTextColor="#999"
               value={nome}
               onChangeText={setNome}

@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { PieChart } from "react-native-chart-kit";
-// ✅ IMPORTAR FUNÇÕES DE CÁLCULO E STORAGE
+// IMPORTAR FUNÇÕES DE CÁLCULO E STORAGE
 import { listarInvestimentos, Investimento } from "../services/storageService";
 import {
   calcularTotalInvestido,
@@ -27,7 +27,7 @@ export default function TelaDashboard() {
   const [carregando, setCarregando] = useState(true);
   const { width } = useWindowDimensions();
 
-  // ✅ CARREGAR DADOS REAIS DO ASYNCSTORAGE
+  // CARREGAR DADOS REAIS DO ASYNCSTORAGE
   useFocusEffect(
     useCallback(() => {
       carregarInvestimentos();
@@ -47,14 +47,14 @@ export default function TelaDashboard() {
     }
   };
 
-  // ✅ CÁLCULOS REAIS
+  // CÁLCULOS REAIS
   const totalInvestido = calcularTotalInvestido(investimentos);
   const valorAtualTotal = calcularValorAtualTotal(investimentos);
   const valorizacao = calcularValorizacaoTotal(investimentos);
   const rentabilidadeMedia = calcularRentabilidadeMedia(investimentos);
   const dadosPorTipo = agruparPorTipo(investimentos);
 
-  // ✅ DADOS DO GRÁFICO BASEADOS NOS INVESTIMENTOS REAIS
+  // DADOS DO GRÁFICO BASEADOS NOS INVESTIMENTOS REAIS
   const coresGrafico = ["#007AFF", "#4CAF50", "#FFC107", "#FF5722", "#9C27B0"];
   
   const chartData = Object.entries(dadosPorTipo).map(([tipo, valor], index) => ({
